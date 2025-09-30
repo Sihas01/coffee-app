@@ -1,5 +1,7 @@
+import 'package:coffee_app/theme/themeProvider.dart';
 import 'package:coffee_app/widget/CustomTopBar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Custom AppBar',
-      theme: ThemeData(useMaterial3: true),
+      theme: Provider.of<Themeprovider>(context).themeData,
       home: Scaffold(appBar: CustomTopBar()),
     );
   }

@@ -1,7 +1,10 @@
 import 'package:coffee_app/screens/HomeScreen.dart';
+import 'package:coffee_app/theme/themeProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp( ChangeNotifierProvider(create: (context) => Themeprovider(),
+child: const MyApp(),) );
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Custom AppBar',
-      theme: ThemeData(useMaterial3: true),
+      theme: Provider.of<Themeprovider>(context).themeData,
       home: const HomeScreen(),
     );
   }
