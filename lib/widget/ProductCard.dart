@@ -58,19 +58,9 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          product.productName,
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        Icon(
-                          Icons.add_shopping_cart_outlined,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ],
+                    child: Text(
+                      product.productName,
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
 
