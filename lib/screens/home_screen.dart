@@ -1,8 +1,8 @@
-import 'package:coffee_app/models/productModel.dart';
-import 'package:coffee_app/widget/CustomChip.dart';
-import 'package:coffee_app/widget/CustomTopBar.dart';
-import 'package:coffee_app/widget/ProductCard.dart';
-import 'package:coffee_app/widget/titleText.dart';
+import 'package:coffee_app/models/product_model.dart';
+import 'package:coffee_app/widget/custom_chip.dart';
+import 'package:coffee_app/widget/custom_top_bar.dart';
+import 'package:coffee_app/widget/product_card.dart';
+import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {

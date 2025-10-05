@@ -1,4 +1,4 @@
-import 'package:coffee_app/models/productModel.dart';
+import 'package:coffee_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {

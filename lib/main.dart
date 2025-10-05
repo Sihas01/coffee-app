@@ -1,5 +1,5 @@
-import 'package:coffee_app/screens/HomeScreen.dart';
-import 'package:coffee_app/theme/themeProvider.dart';
+import 'package:coffee_app/screens/home_screen.dart';
+import 'package:coffee_app/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
