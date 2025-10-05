@@ -1,11 +1,16 @@
+import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/screens/home_screen.dart';
 import 'package:coffee_app/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(
-  ChangeNotifierProvider(
-    create: (context) => Themeprovider(),
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => Themeprovider()),
+      ChangeNotifierProvider(create: (context) => CartModel()),
+    ],
+
     child: const MyApp(),
   ),
 );

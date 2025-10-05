@@ -1,7 +1,11 @@
+import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/models/product_model.dart';
+import 'package:coffee_app/screens/cart_screen.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
 import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:coffee_app/models/cart_item.dart';
+import 'package:provider/provider.dart';
 
 class OneProductView extends StatefulWidget {
   final Product product;
@@ -240,6 +244,20 @@ class _OneProductViewState extends State<OneProductView> {
                       );
                       return;
                     }
+                    final cartItem = CartItem(
+                      product: widget.product,
+                      cupSize: selectedCupSize!,
+                      sugarCount: int.parse(sugarCount!),
+                    );
+
+                    Provider.of<CartModel>(
+                      context,
+                      listen: false,
+                    ).addToCart(cartItem);
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(builder: (context) => Cart()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.background,
