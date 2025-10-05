@@ -9,6 +9,19 @@ class Cart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartModel>(context);
+    String _getCupSizeShortLabel(String size) {
+      switch (size.toLowerCase()) {
+        case 'small':
+          return 'S';
+        case 'medium':
+          return 'M';
+        case 'large':
+          return 'L';
+        default:
+          return size; // fallback to original label if it's unexpected
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -127,8 +140,25 @@ class Cart extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                 top: 8,
                                               ),
-                                              child: CustomChip(
-                                                label: item.cupSize,
+                                              child: Row(
+                                                children: [
+                                                  CustomChip(
+                                                    label:
+                                                        _getCupSizeShortLabel(
+                                                          item.cupSize,
+                                                        ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                          left: 5,
+                                                        ),
+                                                    child: CustomChip(
+                                                      label:
+                                                          '${item.sugarCount}',
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             Padding(

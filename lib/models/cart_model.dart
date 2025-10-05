@@ -40,12 +40,23 @@ class CartModel extends ChangeNotifier {
 
   List<CartItem> get cartItems => _cartItems;
 
-  void addToCart(CartItem item) {
-    _cartItems.add(item);
-    notifyListeners();
+  bool addToCart(CartItem item) {
+    final itemExists = cartItems.any(
+      (element) =>
+          element.product == item.product &&
+          element.cupSize == item.cupSize &&
+          element.sugarCount == item.sugarCount,
+    );
+
+    if (!itemExists) {
+      _cartItems.add(item);
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 
-  void removeFromCart(CartItem item){
+  void removeFromCart(CartItem item) {
     _cartItems.remove(item);
     notifyListeners();
   }

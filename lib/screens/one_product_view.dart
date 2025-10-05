@@ -1,6 +1,5 @@
 import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/models/product_model.dart';
-import 'package:coffee_app/screens/cart_screen.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
 import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
@@ -250,7 +249,7 @@ class _OneProductViewState extends State<OneProductView> {
                       sugarCount: int.parse(sugarCount!),
                     );
 
-                    Provider.of<CartModel>(
+                    final success = Provider.of<CartModel>(
                       context,
                       listen: false,
                     ).addToCart(cartItem);
@@ -260,20 +259,29 @@ class _OneProductViewState extends State<OneProductView> {
                       sugarCount = null;
                     });
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Row(
-                          children: [
-                            Icon(Icons.check_circle, color: Colors.greenAccent),
-                            SizedBox(width: 10),
-                            Text('Added to cart successfully!'),
-                          ],
+                    if (success) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                color: Colors.greenAccent,
+                              ),
+                              SizedBox(width: 10),
+                              Text('Added to cart successfully!'),
+                            ],
+                          ),
+                          backgroundColor: Colors.black87,
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 2),
                         ),
-                        backgroundColor: Colors.black87,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Item already in cart')),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.background,
