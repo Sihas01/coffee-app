@@ -1,4 +1,5 @@
 import 'package:coffee_app/models/cart_model.dart';
+import 'package:coffee_app/screens/login_screen.dart';
 import 'package:coffee_app/screens/route_screen.dart';
 import 'package:coffee_app/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Coffe App',
       theme: Provider.of<Themeprovider>(context).themeData,
-      home: RouteScreen(),
+      home: LoginScreen(),
     );
   }
 }
