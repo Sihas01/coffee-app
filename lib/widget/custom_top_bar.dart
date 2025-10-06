@@ -8,6 +8,7 @@ class CustomTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      surfaceTintColor: Colors.transparent,
       toolbarHeight: 225,
       elevation: 4,
       shape: RoundedRectangleBorder(

@@ -1,5 +1,6 @@
 import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/models/product_model.dart';
+import 'package:coffee_app/theme/theme.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
 import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _OneProductViewState extends State<OneProductView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Theme.of(context).colorScheme.background,
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
@@ -40,7 +42,7 @@ class _OneProductViewState extends State<OneProductView> {
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.favorite_outline_outlined,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.coffeeCardBackground,
                   ),
                 ),
               ),
@@ -272,7 +274,7 @@ class _OneProductViewState extends State<OneProductView> {
                               Text('Added to cart successfully!'),
                             ],
                           ),
-                          backgroundColor: Colors.black87,
+
                           behavior: SnackBarBehavior.floating,
                           duration: Duration(seconds: 2),
                         ),

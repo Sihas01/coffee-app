@@ -8,6 +8,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Theme.of(context).colorScheme.background,
         iconTheme: IconThemeData(color: Colors.white),
       ),

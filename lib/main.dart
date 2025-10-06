@@ -20,10 +20,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<Themeprovider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Coffe App',
-      theme: Provider.of<Themeprovider>(context).themeData,
+      theme: themeProvider.lightTheme,
+      darkTheme: themeProvider.darkTheme,
+      themeMode: themeProvider.themeMode,
       home: LoginScreen(),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:coffee_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class SettingsCard extends StatelessWidget {
@@ -20,7 +21,7 @@ class SettingsCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16),
         margin: EdgeInsets.fromLTRB(15, 4, 15, 4),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.settingsCard,
           borderRadius: BorderRadius.circular(5),
           boxShadow: [
             BoxShadow(
@@ -57,14 +58,18 @@ class SettingsCard extends StatelessWidget {
                     Text(
                       description,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            Icon(Icons.arrow_forward, size: 20, color: Colors.black54),
+            Icon(
+              Icons.arrow_forward,
+              size: 20,
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ],
         ),
       ),

@@ -2,20 +2,25 @@ import 'package:coffee_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class Themeprovider with ChangeNotifier{
-  ThemeData _themeData = lightMode;
+  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode get themeMode => _themeMode;
 
-  ThemeData get themeData => _themeData;
-
-  set themeData(ThemeData themeData){
-    _themeData = themeData;
+  void setThemeMode(ThemeMode mode) {
+    _themeMode = mode;
     notifyListeners();
   }
 
-  void toggleTheme(){
-    if (_themeData == lightMode){
-      themeData = darkMode;
-    }else{
-      themeData = lightMode;
+void toggleTheme() {
+    if (_themeMode == ThemeMode.light) {
+      _themeMode = ThemeMode.dark;
+    } else if (_themeMode == ThemeMode.dark) {
+      _themeMode = ThemeMode.light;
+    } else {
+      _themeMode = ThemeMode.light;
     }
+    notifyListeners();
   }
+
+  ThemeData get lightTheme => lightMode;
+  ThemeData get darkTheme => darkMode;
 }

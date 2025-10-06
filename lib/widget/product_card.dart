@@ -1,5 +1,6 @@
 import 'package:coffee_app/models/product_model.dart';
 import 'package:coffee_app/screens/one_product_view.dart';
+import 'package:coffee_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -20,7 +21,9 @@ class ProductCard extends StatelessWidget {
           );
         },
         child: Container(
-          decoration: BoxDecoration(color: Color(0x054B1F0E)),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.coffeeCardLowerBackground,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -28,7 +31,7 @@ class ProductCard extends StatelessWidget {
                 flex: 3,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color(0xff4B1F0E),
+                    color: Theme.of(context).colorScheme.coffeeCardBackground,
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                   child: Padding(
@@ -43,7 +46,12 @@ class ProductCard extends StatelessWidget {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.favorite_outline_outlined),
+                            child: Icon(
+                              Icons.favorite_outline_outlined,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.coffeeCardBackground,
+                            ),
                           ),
                         ),
 

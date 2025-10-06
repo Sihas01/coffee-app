@@ -1,4 +1,5 @@
 import 'package:coffee_app/models/cart_model.dart';
+import 'package:coffee_app/theme/theme.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class Cart extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Theme.of(context).colorScheme.background,
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -65,7 +67,9 @@ class Cart extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 16),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.cartItemColor,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
@@ -84,7 +88,7 @@ class Cart extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         color: Theme.of(
                                           context,
-                                        ).colorScheme.background,
+                                        ).colorScheme.coffeeCardBackground,
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(12),
                                           bottomLeft: Radius.circular(12),
