@@ -1,11 +1,10 @@
-import 'package:coffee_app/screens/register_screen.dart';
-import 'package:coffee_app/screens/route_screen.dart';
+import 'package:coffee_app/screens/login_screen.dart';
 import 'package:coffee_app/widget/label_text.dart';
 import 'package:coffee_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,10 @@ class LoginScreen extends StatelessWidget {
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                child: Image.asset('asset/images/login.png', fit: BoxFit.cover),
+                child: Image.asset(
+                  'asset/images/register.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
 
@@ -36,14 +38,30 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          "Welcome Back,",
+                          "Welcome,",
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                         ),
-                        LableText(label: "Username"),
+
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            "Create an account to start ordering your favorite coffee.",
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: LableText(label: "Username"),
+                        ),
                         TextWidget(label: "username"),
+                        LableText(label: "Email Address"),
+                        TextWidget(label: "email address"),
 
                         LableText(label: "Password"),
                         TextWidget(label: "password", isPassword: true),
@@ -54,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute<void>(
-                                  builder: (context) => RouteScreen(),
+                                  builder: (context) => LoginScreen(),
                                 ),
                               );
                             },
@@ -70,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Text('Sign In'),
+                              child: Text('Register'),
                             ),
                           ),
                         ),
@@ -83,7 +101,7 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "New to here? ",
+                          "already have a account? ",
                           style: Theme.of(context).textTheme.labelLarge
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
@@ -100,12 +118,12 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute<void>(
-                                builder: (context) => RegisterScreen(),
+                                builder: (context) => LoginScreen(),
                               ),
                             );
                           },
                           child: Text(
-                            "Register",
+                            "Log In",
                             style: Theme.of(context).textTheme.labelLarge
                                 ?.copyWith(
                                   color: Theme.of(context).colorScheme.primary,

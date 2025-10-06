@@ -66,6 +66,7 @@ flutter:
     - asset/images/cappuccinoTwo.png
     - asset/images/profile.jpg
     - asset/images/login.png
+    - asset/images/register.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
