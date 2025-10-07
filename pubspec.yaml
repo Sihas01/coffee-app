@@ -65,6 +65,11 @@ flutter:
     - asset/images/cappuccino.png
     - asset/images/cappuccinoTwo.png
     - asset/images/mocha.png
+    - asset/images/icelatte.png
+    - asset/images/chocolate.png
+    - asset/images/Affogato.png
+    - asset/images/Macchiato.png
+    - asset/images/IcedMocha.png
     - asset/images/profile.jpg
     - asset/images/login.png
     - asset/images/register.png

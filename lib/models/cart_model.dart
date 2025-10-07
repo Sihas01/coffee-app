@@ -20,7 +20,7 @@ class CartModel extends ChangeNotifier {
     ),
     Product(
       productName: 'Ice Latte',
-      imagePath: 'asset/images/cappuccino.png',
+      imagePath: 'asset/images/icelatte.png',
       price: 1080.00,
       rating: 500,
       ratingAvg: 3.5,
@@ -36,29 +36,29 @@ class CartModel extends ChangeNotifier {
 
   final List<Product> newArrivals = [
     Product(
-      productName: 'Espresso',
-      imagePath: 'asset/images/cappuccino.png',
+      productName: 'Hot Chocolate',
+      imagePath: 'asset/images/chocolate.png',
       price: 690.99,
       rating: 520,
       ratingAvg: 4,
     ),
     Product(
-      productName: 'Cappuccino',
-      imagePath: 'asset/images/cappuccinoTwo.png',
+      productName: 'Affogato',
+      imagePath: 'asset/images/Affogato.png',
       price: 1080.00,
       rating: 800,
       ratingAvg: 5,
     ),
     Product(
-      productName: 'Ice Latte',
-      imagePath: 'asset/images/cappuccino.png',
+      productName: 'Macchiato',
+      imagePath: 'asset/images/Macchiato.png',
       price: 1080.00,
       rating: 500,
       ratingAvg: 3.5,
     ),
     Product(
-      productName: 'Mocha',
-      imagePath: 'asset/images/cappuccino.png',
+      productName: 'Iced Mocha',
+      imagePath: 'asset/images/IcedMocha.png',
       price: 700.99,
       rating: 220,
       ratingAvg: 2.3,
