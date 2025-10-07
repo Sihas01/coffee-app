@@ -20,7 +20,12 @@ class MenuScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 27, right: 25, left: 25),
+          padding: const EdgeInsets.only(
+            top: 27,
+            right: 25,
+            left: 25,
+            bottom: 20,
+          ),
           child: Column(
             children: [
               Padding(

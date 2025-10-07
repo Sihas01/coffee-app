@@ -39,7 +39,12 @@ class Settings extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 27, right: 15, left: 15),
+              padding: const EdgeInsets.only(
+                top: 27,
+                right: 15,
+                left: 15,
+                bottom: 20,
+              ),
               child: Column(
                 children: [
                   SettingsCard(

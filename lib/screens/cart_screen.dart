@@ -44,6 +44,7 @@ class Cart extends StatelessWidget {
                       top: 27,
                       right: 25,
                       left: 25,
+                      bottom: 20,
                     ),
                     child: Column(
                       children: [

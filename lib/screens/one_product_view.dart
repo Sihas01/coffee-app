@@ -72,7 +72,12 @@ class _OneProductViewState extends State<OneProductView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 27, right: 25, left: 25),
+              padding: const EdgeInsets.only(
+                top: 27,
+                right: 25,
+                left: 25,
+                bottom: 26,
+              ),
               child: Column(
                 children: [
                   Row(
