@@ -2,7 +2,7 @@ import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/screens/menu_screen.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
 import 'package:coffee_app/widget/custom_top_bar.dart';
-import 'package:coffee_app/widget/product_card.dart';
+import 'package:coffee_app/widget/product_grid.dart';
 import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -95,45 +95,13 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    mainAxisExtent: 290,
-                  ),
-                  itemCount: featued.length >= 2 ? 2 : featued.length,
-                  itemBuilder: (context, index) {
-                    return ProductCard(product: featued[index]);
-                  },
-                ),
-              ),
+              ProductGrid(featued: featued),
 
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Row(children: [TitleText(title: "New Arrivals")]),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    mainAxisExtent: 290,
-                  ),
-                  itemCount: newarrival.length >= 2 ? 2 : newarrival.length,
-                  itemBuilder: (context, index) {
-                    return ProductCard(product: newarrival[index]);
-                  },
-                ),
-              ),
+              ProductGrid(featued: newarrival),
             ],
           ),
         ),
