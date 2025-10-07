@@ -1,4 +1,5 @@
 import 'package:coffee_app/models/cart_model.dart';
+import 'package:coffee_app/screens/menu_screen.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
 import 'package:coffee_app/widget/custom_top_bar.dart';
 import 'package:coffee_app/widget/product_card.dart';
@@ -11,7 +12,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<CartModel>(context).products;
+    final products = Provider.of<CartModel>(context);
+    final featued = products.products;
+    final newarrival = products.newArrivals;
+
     return Scaffold(
       appBar: CustomTopBar(),
       body: SingleChildScrollView(
@@ -57,7 +61,34 @@ class HomeScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: Row(children: [TitleText(title: "Featured Products")]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TitleText(title: "Featured Products"),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        overlayColor: Colors.transparent,
+                      ),
+
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => MenuScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "more",
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -70,9 +101,31 @@ class HomeScreen extends StatelessWidget {
                     mainAxisSpacing: 16,
                     mainAxisExtent: 290,
                   ),
-                  itemCount: products.length,
+                  itemCount: featued.length >= 2 ? 2 : featued.length,
                   itemBuilder: (context, index) {
-                    return ProductCard(product: products[index]);
+                    return ProductCard(product: featued[index]);
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(children: [TitleText(title: "New Arrivals")]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    mainAxisExtent: 290,
+                  ),
+                  itemCount: newarrival.length >= 2 ? 2 : newarrival.length,
+                  itemBuilder: (context, index) {
+                    return ProductCard(product: newarrival[index]);
                   },
                 ),
               ),

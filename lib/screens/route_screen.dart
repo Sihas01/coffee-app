@@ -1,5 +1,6 @@
 import 'package:coffee_app/screens/cart_screen.dart';
 import 'package:coffee_app/screens/home_screen.dart';
+import 'package:coffee_app/screens/menu_screen.dart';
 import 'package:coffee_app/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class RouteScreen extends StatefulWidget {
 
 class _RouteScreenState extends State<RouteScreen> {
   int currentIndex = 0;
-  List<Widget> pages = [HomeScreen(), Cart(),Settings()];
+  List<Widget> pages = [HomeScreen(), MenuScreen(), Cart(), Settings()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
