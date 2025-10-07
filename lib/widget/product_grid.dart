@@ -2,12 +2,10 @@ import 'package:coffee_app/widget/product_card.dart';
 import 'package:flutter/material.dart';
 
 class ProductGrid extends StatelessWidget {
-  const ProductGrid({
-    super.key,
-    required this.featued,
-  });
+  const ProductGrid({super.key, required this.setction, this.isMenu = false});
 
-  final dynamic featued;
+  final dynamic setction;
+  final bool isMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,13 @@ class ProductGrid extends StatelessWidget {
           } else {
             crossAxisCount = 2;
           }
-    
+
+          final int itemCount = isMenu
+              ? setction.length
+              : (setction.length >= crossAxisCount
+                    ? crossAxisCount
+                    : setction.length);
+
           return GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -36,11 +40,9 @@ class ProductGrid extends StatelessWidget {
               mainAxisSpacing: 16,
               mainAxisExtent: 290,
             ),
-            itemCount: featued.length >= crossAxisCount
-                ? crossAxisCount
-                : featued.length,
+            itemCount: itemCount,
             itemBuilder: (context, index) {
-              return ProductCard(product: featued[index]);
+              return ProductCard(product: setction[index]);
             },
           );
         },

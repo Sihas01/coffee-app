@@ -27,14 +27,14 @@ class CartModel extends ChangeNotifier {
     ),
     Product(
       productName: 'Mocha',
-      imagePath: 'asset/images/cappuccino.png',
+      imagePath: 'asset/images/mocha.png',
       price: 700.99,
       rating: 220,
       ratingAvg: 2.3,
     ),
   ];
 
-    final List<Product> newArrivals = [
+  final List<Product> newArrivals = [
     Product(
       productName: 'Espresso',
       imagePath: 'asset/images/cappuccino.png',

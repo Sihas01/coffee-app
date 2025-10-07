@@ -46,13 +46,13 @@ class MenuScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(children: [TitleText(title: "Featured Products")]),
               ),
-              ProductGrid(featued: featued),
+              ProductGrid(setction: featued, isMenu: true),
 
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Row(children: [TitleText(title: "New Arrivals")]),
               ),
-              ProductGrid(featued: newarrival),
+              ProductGrid(setction: newarrival, isMenu: true),
             ],
           ),
         ),

@@ -95,13 +95,13 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ProductGrid(featued: featued),
+              ProductGrid(setction: featued),
 
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Row(children: [TitleText(title: "New Arrivals")]),
               ),
-              ProductGrid(featued: newarrival),
+              ProductGrid(setction: newarrival),
             ],
           ),
         ),
