@@ -1,16 +1,46 @@
-# coffee_app
+# ☕ Coffee App
 
-A new Flutter project.
+A modern Flutter app for browsing and ordering coffee.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+* Browse a list of coffee products
+* Add items to cart
+* View total price
 
-A few resources to get you started if this is your first Flutter project:
+## 📱 Screens
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* Home screen with featured coffees
+* Product detail view
+* Cart page with total and checkout button
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack
+
+* Flutter
+* Dart
+* Provider (for state management)
+
+## ▶️ Getting Started
+
+1. Clone the repo:
+
+   ```bash
+   git clone https://github.com/your-username/coffee_app.git
+   ```
+2. Install dependencies:
+
+   ```bash
+   flutter pub get
+   ```
+3. Run the app:
+
+   ```bash
+   flutter run
+   ```
+
+## 📸 Preview
+
+<div align="center">
+  <img src="screenshots/homelight.png" alt="Home Screen Ligt Mode" width="45%" />
+  <img src="screenshots/homedark.png" alt="Home Screen Dark Mode" width="45%" />
+</div>
