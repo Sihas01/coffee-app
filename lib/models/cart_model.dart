@@ -91,4 +91,12 @@ class CartModel extends ChangeNotifier {
     _cartItems.remove(item);
     notifyListeners();
   }
+
+  double getTotalPrice(){
+    double totalPrice = 0.00;
+    for(CartItem item in _cartItems){
+      totalPrice += item.product.price;
+    }
+    return totalPrice;
+  }
 }
