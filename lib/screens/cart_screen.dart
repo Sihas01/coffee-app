@@ -1,6 +1,7 @@
 import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/theme/theme.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
+import 'package:coffee_app/widget/location_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,6 +70,9 @@ class Cart extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 20),
+                              LocationTile(),
+                              SizedBox(height: 20),
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),

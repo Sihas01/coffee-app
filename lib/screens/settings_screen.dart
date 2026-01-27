@@ -1,8 +1,54 @@
+import 'dart:io';
+
 import 'package:coffee_app/widget/settings_card.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({super.key});
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
+
+  void _showImageOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text("Camera"),
+            onTap: () async {
+              Navigator.pop(context);
+              final image = await _picker.pickImage(source: ImageSource.camera);
+              if (image != null) {
+                setState(() => _profileImage = File(image.path));
+              }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo),
+            title: const Text("Gallery"),
+            onTap: () async {
+              Navigator.pop(context);
+              final image = await _picker.pickImage(
+                source: ImageSource.gallery,
+              );
+              if (image != null) {
+                setState(() => _profileImage = File(image.path));
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +65,15 @@ class Settings extends StatelessWidget {
               padding: const EdgeInsets.only(top: 25),
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 70, // Size of the circle
-                    backgroundImage: AssetImage(
-                      'asset/images/profile.jpg',
-                    ), // or NetworkImage
+                  GestureDetector(
+                    onTap: _showImageOptions,
+                    child: CircleAvatar(
+                      radius: 70,
+                      backgroundImage: _profileImage != null
+                          ? FileImage(_profileImage!)
+                          : const AssetImage('asset/images/profile.jpg')
+                                as ImageProvider,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
