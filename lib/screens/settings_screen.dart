@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:coffee_app/screens/login_screen.dart';
+import 'package:coffee_app/services/auth_service.dart';
 import 'package:coffee_app/widget/settings_card.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:quickalert/quickalert.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -154,6 +157,44 @@ class _SettingsState extends State<Settings> {
                       Icons.translate,
                       color: Theme.of(context).colorScheme.primary,
                       size: 25,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SettingsCard(
+                      title: "Logout",
+                      description: "Sign out from your account",
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.red,
+                        size: 25,
+                      ),
+                      onTap: () async {
+                        // Show confirmation dialog
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.confirm,
+                          text: "Are you sure you want to logout?",
+                          confirmBtnText: "Yes",
+                          cancelBtnText: "No",
+                          confirmBtnColor: Colors.red,
+                          onConfirmBtnTap: () async {
+                            // Logout user
+                            await AuthService.logout();
+                            
+                            // Navigate to login screen
+                            if (context.mounted) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute<void>(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                                (route) => false, 
+                              );
+                            }
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
