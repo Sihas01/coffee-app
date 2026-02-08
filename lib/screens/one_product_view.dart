@@ -6,6 +6,8 @@ import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/models/cart_item.dart';
 import 'package:provider/provider.dart';
+import 'package:coffee_app/widget/cached_product_image.dart';
+
 
 class OneProductView extends StatefulWidget {
   final Product product;
@@ -65,15 +67,11 @@ class _OneProductViewState extends State<OneProductView> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(70.0),
-                child: widget.product.imagePath.startsWith('http')
-                    ? Image.network(
-                        widget.product.imagePath,
-                        fit: BoxFit.contain,
-                      )
-                    : Image.asset(
-                        widget.product.imagePath,
-                        fit: BoxFit.contain,
-                      ),
+                child: CachedProductImage(
+                  product: widget.product,
+                  fit: BoxFit.contain,
+                ),
+
               ),
             ),
             Padding(
