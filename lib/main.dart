@@ -1,4 +1,5 @@
 import 'package:coffee_app/models/cart_model.dart';
+import 'package:coffee_app/models/user_provider.dart';
 import 'package:coffee_app/screens/login_screen.dart';
 import 'package:coffee_app/screens/route_screen.dart';
 import 'package:coffee_app/services/auth_service.dart';
@@ -11,6 +12,7 @@ void main() => runApp(
         providers: [
           ChangeNotifierProvider(create: (context) => Themeprovider()),
           ChangeNotifierProvider(create: (context) => CartModel()),
+          ChangeNotifierProvider(create: (context) => UserProvider()),
         ],
         child: const MyApp(),
       ),
