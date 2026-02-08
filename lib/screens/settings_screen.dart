@@ -151,17 +151,24 @@ class _SettingsState extends State<Settings> {
                                   : const AssetImage('asset/images/profile.jpg') as ImageProvider,
                             ),
                             if (_isUploading)
-                              const CircularProgressIndicator(),
+                              CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.primary == Colors.white 
+                                  ? const Color(0xff794028) 
+                                  : Theme.of(context).colorScheme.primary,
+                              ),
                             Positioned(
                               bottom: 0,
                               right: 0,
                               child: Container(
-                                padding: const EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context).colorScheme.primary == Colors.white 
+                                    ? const Color(0xff794028) 
+                                    : Theme.of(context).colorScheme.primary,
                                   shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white, width: 2),
                                 ),
-                                child: const Icon(Icons.edit, color: Colors.white, size: 20),
+                                child: const Icon(Icons.camera_alt, color: Colors.white, size: 18),
                               ),
                             ),
                           ],
