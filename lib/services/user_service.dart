@@ -26,7 +26,7 @@ class UserService {
           'Authorization': 'Bearer $token',
           ..._headers,
         },
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         return UserProfile.fromJson(jsonDecode(response.body));
@@ -66,7 +66,7 @@ class UserService {
 
       print('UserService: Uploading image: $fileName, type: $contentType');
       
-      final streamedResponse = await request.send();
+      final streamedResponse = await request.send().timeout(const Duration(seconds: 30));
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
@@ -100,7 +100,7 @@ class UserService {
           ..._headers,
         },
         body: jsonEncode(body),
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode != 200) {
         print('UserService: Failed to update profile. Status: ${response.statusCode}, Body: ${response.body}');

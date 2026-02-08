@@ -19,10 +19,7 @@ class _CustomTopBarState extends State<CustomTopBar> {
     super.initState();
     // Fetch profile if not already loaded
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      if (userProvider.userProfile == null) {
-        userProvider.fetchProfile();
-      }
+      Provider.of<UserProvider>(context, listen: false).fetchProfile();
     });
   }
 

@@ -17,20 +17,40 @@ class DbService {
     String path = join(await getDatabasesPath(), 'coffee_app.db');
     return await openDatabase(
       path,
-      version: 2,
+      version: 4,
       onCreate: (db, version) async {
         await db.execute(
           'CREATE TABLE products(id TEXT PRIMARY KEY, productName TEXT, imagePath TEXT, localImagePath TEXT, price REAL, rating INTEGER, ratingAvg REAL, category TEXT, description TEXT)',
         );
         await db.execute(
-          'CREATE TABLE user_profile(id TEXT PRIMARY KEY, username TEXT, email TEXT, profile_image TEXT)',
+          'CREATE TABLE user_profile(id TEXT PRIMARY KEY, username TEXT, email TEXT, profile_image TEXT, local_profile_image TEXT)',
         );
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
-          await db.execute(
-            'CREATE TABLE user_profile(id TEXT PRIMARY KEY, username TEXT, email TEXT, profile_image TEXT)',
-          );
+          try {
+            await db.execute(
+              'CREATE TABLE user_profile(id TEXT PRIMARY KEY, username TEXT, email TEXT, profile_image TEXT, local_profile_image TEXT)',
+            );
+          } catch (e) {
+            print('DbService Migration (v2) Error: $e');
+          }
+        } 
+        
+        if (oldVersion < 4) {
+          // Version 3 and 4 handle the same column addition safely
+          try {
+            await db.execute(
+              'ALTER TABLE user_profile ADD COLUMN local_profile_image TEXT',
+            );
+          } catch (e) {
+            // Ignore error if column already exists
+            if (e.toString().contains('duplicate column name')) {
+              print('DbService Migration: column local_profile_image already exists, skipping.');
+            } else {
+              rethrow;
+            }
+          }
         }
       },
     );
@@ -69,6 +89,7 @@ class DbService {
         'username': profile.username,
         'email': profile.email,
         'profile_image': profile.profileImage,
+        'local_profile_image': profile.localProfileImage,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:coffee_app/models/cart_item.dart';
 import 'package:provider/provider.dart';
 import 'package:coffee_app/widget/cached_product_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:quickalert/quickalert.dart';
 
 
 class OneProductView extends StatefulWidget {
@@ -242,7 +244,23 @@ class _OneProductViewState extends State<OneProductView> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    // Check Connectivity
+                    final connectivityResult = await Connectivity().checkConnectivity();
+                    final isOffline = connectivityResult.contains(ConnectivityResult.none);
+
+                    if (isOffline) {
+                      if (context.mounted) {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          title: 'Offline',
+                          text: 'You cannot add items to cart while offline.',
+                        );
+                      }
+                      return;
+                    }
+
                     if (selectedCupSize == null || sugarCount == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

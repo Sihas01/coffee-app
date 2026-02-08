@@ -28,10 +28,7 @@ class _SettingsState extends State<Settings> {
     super.initState();
     // Fetch profile if not already loaded
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      if (userProvider.userProfile == null) {
-        userProvider.fetchProfile();
-      }
+      Provider.of<UserProvider>(context, listen: false).fetchProfile();
     });
   }
 
@@ -113,6 +110,38 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  Widget _buildProfileImage(UserProfile? userProfile) {
+    if (userProfile?.localProfileImage != null) {
+      final file = File(userProfile!.localProfileImage!);
+      if (file.existsSync()) {
+        print('Settings: Using local profile image: ${file.path}');
+        return Image.file(file, fit: BoxFit.cover, key: ValueKey(file.path + file.lengthSync().toString()));
+      } else {
+        print('Settings: Local image file not found at ${file.path}');
+      }
+    }
+
+    if (userProfile?.profileImage != null) {
+      final String url = userProfile!.profileImage!.startsWith('http')
+          ? userProfile!.profileImage!
+          : '${ApiConfig.baseUrl}${userProfile!.profileImage!}';
+
+      print('Settings: Using network profile image: $url');
+      return Image.network(
+        url,
+        fit: BoxFit.cover,
+        headers: const {'ngrok-skip-browser-warning': 'any'},
+        errorBuilder: (context, error, stackTrace) {
+          print('Settings: Network image failed (Offline): $error');
+          return Image.asset('asset/images/profile.jpg', fit: BoxFit.cover);
+        },
+      );
+    }
+
+    print('Settings: Using default asset profile image');
+    return Image.asset('asset/images/people.png', fit: BoxFit.cover);
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -139,16 +168,16 @@ class _SettingsState extends State<Settings> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            CircleAvatar(
-                              radius: 70,
-                              backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(50),
-                              backgroundImage: userProfile?.profileImage != null
-                                  ? NetworkImage(
-                                      userProfile!.profileImage!.startsWith('http')
-                                          ? userProfile!.profileImage!
-                                          : '${ApiConfig.baseUrl}${userProfile!.profileImage!}'
-                                    )
-                                  : const AssetImage('asset/images/profile.jpg') as ImageProvider,
+                            Container(
+                              width: 140,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Theme.of(context).colorScheme.primary.withAlpha(50),
+                              ),
+                              child: ClipOval(
+                                child: _buildProfileImage(userProfile),
+                              ),
                             ),
                             if (_isUploading)
                               CircularProgressIndicator(

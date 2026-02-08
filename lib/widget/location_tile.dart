@@ -1,4 +1,5 @@
 import 'package:coffee_app/theme/theme.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +23,19 @@ class _LocationTileState extends State<LocationTile> {
   }
 
   Future<void> _determinePosition() async {
+    // Check Connectivity First
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult.contains(ConnectivityResult.none)) {
+      if (mounted) {
+        setState(() {
+          _addressLine1 = "Offline";
+          _addressLine2 = "Check internet connection";
+          _isLoading = false;
+        });
+      }
+      return;
+    }
+
     bool serviceEnabled;
     LocationPermission permission;
 
