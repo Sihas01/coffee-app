@@ -116,10 +116,16 @@ class Cart extends StatelessWidget {
                                               padding: const EdgeInsets.all(
                                                 12.0,
                                               ),
-                                              child: Image.asset(
-                                                item.product.imagePath,
-                                                fit: BoxFit.cover,
-                                              ),
+                                              child: item.product.imagePath
+                                                      .startsWith('http')
+                                                  ? Image.network(
+                                                      item.product.imagePath,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.asset(
+                                                      item.product.imagePath,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                             ),
                                           ),
 

@@ -65,10 +65,15 @@ class _OneProductViewState extends State<OneProductView> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(70.0),
-                child: Image.asset(
-                  widget.product.imagePath,
-                  fit: BoxFit.contain,
-                ),
+                child: widget.product.imagePath.startsWith('http')
+                    ? Image.network(
+                        widget.product.imagePath,
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(
+                        widget.product.imagePath,
+                        fit: BoxFit.contain,
+                      ),
               ),
             ),
             Padding(
@@ -219,7 +224,7 @@ class _OneProductViewState extends State<OneProductView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      "A cappuccino is an espresso-based coffee drink traditionally composed of equal parts espresso, steamed milk, and milk foam, creating a balanced and layered beverage.",
+                      widget.product.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.justify,
                     ),

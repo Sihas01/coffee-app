@@ -1,85 +1,61 @@
+import 'package:flutter/material.dart';
 import 'package:coffee_app/models/cart_item.dart';
 import 'package:coffee_app/models/product_model.dart';
-import 'package:flutter/material.dart';
+import 'package:coffee_app/services/product_service.dart';
 
 class CartModel extends ChangeNotifier {
-  final List<Product> productsList = [
-    Product(
-      productName: 'Espresso',
-      imagePath: 'asset/images/cappuccino.png',
-      price: 690.99,
-      rating: 520,
-      ratingAvg: 4,
-    ),
-    Product(
-      productName: 'Cappuccino',
-      imagePath: 'asset/images/cappuccinoTwo.png',
-      price: 1080.00,
-      rating: 800,
-      ratingAvg: 5,
-    ),
-    Product(
-      productName: 'Ice Latte',
-      imagePath: 'asset/images/icelatte.png',
-      price: 1080.00,
-      rating: 500,
-      ratingAvg: 3.5,
-    ),
-    Product(
-      productName: 'Mocha',
-      imagePath: 'asset/images/mocha.png',
-      price: 700.99,
-      rating: 220,
-      ratingAvg: 2.3,
-    ),
-  ];
+  final ProductService _productService = ProductService();
 
-  final List<Product> newArrivals = [
-    Product(
-      productName: 'Hot Chocolate',
-      imagePath: 'asset/images/chocolate.png',
-      price: 690.99,
-      rating: 520,
-      ratingAvg: 4,
-    ),
-    Product(
-      productName: 'Affogato',
-      imagePath: 'asset/images/Affogato.png',
-      price: 1080.00,
-      rating: 800,
-      ratingAvg: 5,
-    ),
-    Product(
-      productName: 'Macchiato',
-      imagePath: 'asset/images/Macchiato.png',
-      price: 1080.00,
-      rating: 500,
-      ratingAvg: 3.5,
-    ),
-    Product(
-      productName: 'Iced Mocha',
-      imagePath: 'asset/images/IcedMocha.png',
-      price: 700.99,
-      rating: 220,
-      ratingAvg: 2.3,
-    ),
-  ];
+  /// ALL PRODUCTS FROM API
+  List<Product> _allProducts = [];
 
-  get products => productsList;
-
+  /// CART
   final List<CartItem> _cartItems = [];
+
+  bool isLoading = false;
+  String? errorMessage;
+
+  CartModel() {
+    loadProducts(); 
+  }
 
   List<CartItem> get cartItems => _cartItems;
 
+  List<Product> get featuredProducts =>
+      _allProducts.where((p) => p.category == 'featured').toList();
+
+  List<Product> get newArrivals =>
+      _allProducts.where((p) => p.category == 'new').toList();
+
+  Future<void> loadProducts() async {
+     print('LOAD PRODUCTS CALLED');
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      _allProducts = await _productService.fetchProducts();
+      for (var p in _allProducts) {
+        print(p.productName);
+      }
+    } catch (e) {
+      errorMessage = 'Failed to load products';
+      debugPrint(e.toString());
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
   bool addToCart(CartItem item) {
-    final itemExists = cartItems.any(
+    final exists = _cartItems.any(
       (element) =>
-          element.product == item.product &&
+          element.product.id == item.product.id &&
           element.cupSize == item.cupSize &&
           element.sugarCount == item.sugarCount,
     );
 
-    if (!itemExists) {
+    if (!exists) {
       _cartItems.add(item);
       notifyListeners();
       return true;
@@ -92,11 +68,7 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  double getTotalPrice(){
-    double totalPrice = 0.00;
-    for(CartItem item in _cartItems){
-      totalPrice += item.product.price;
-    }
-    return totalPrice;
+  double getTotalPrice() {
+    return _cartItems.fold(0.0, (total, item) => total + item.product.price);
   }
 }

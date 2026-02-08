@@ -10,7 +10,7 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<CartModel>(context);
-    final featued = products.products;
+    final featued = products.featuredProducts;
     final newarrival = products.newArrivals;
     return Scaffold(
       appBar: AppBar(
