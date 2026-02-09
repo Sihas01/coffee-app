@@ -6,6 +6,10 @@ import 'package:coffee_app/widget/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/models/cart_item.dart';
 import 'package:provider/provider.dart';
+import 'package:coffee_app/widget/cached_product_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:quickalert/quickalert.dart';
+
 
 class OneProductView extends StatefulWidget {
   final Product product;
@@ -65,10 +69,11 @@ class _OneProductViewState extends State<OneProductView> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(70.0),
-                child: Image.asset(
-                  widget.product.imagePath,
+                child: CachedProductImage(
+                  product: widget.product,
                   fit: BoxFit.contain,
                 ),
+
               ),
             ),
             Padding(
@@ -219,7 +224,7 @@ class _OneProductViewState extends State<OneProductView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      "A cappuccino is an espresso-based coffee drink traditionally composed of equal parts espresso, steamed milk, and milk foam, creating a balanced and layered beverage.",
+                      widget.product.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.justify,
                     ),
@@ -239,7 +244,23 @@ class _OneProductViewState extends State<OneProductView> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    // Check Connectivity
+                    final connectivityResult = await Connectivity().checkConnectivity();
+                    final isOffline = connectivityResult.contains(ConnectivityResult.none);
+
+                    if (isOffline) {
+                      if (context.mounted) {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          title: 'Offline',
+                          text: 'You cannot add items to cart while offline.',
+                        );
+                      }
+                      return;
+                    }
+
                     if (selectedCupSize == null || sugarCount == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

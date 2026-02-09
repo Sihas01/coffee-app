@@ -1,85 +1,137 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:coffee_app/models/cart_item.dart';
 import 'package:coffee_app/models/product_model.dart';
-import 'package:flutter/material.dart';
+import 'package:coffee_app/services/product_service.dart';
+import 'package:coffee_app/services/db_service.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+
 
 class CartModel extends ChangeNotifier {
-  final List<Product> productsList = [
-    Product(
-      productName: 'Espresso',
-      imagePath: 'asset/images/cappuccino.png',
-      price: 690.99,
-      rating: 520,
-      ratingAvg: 4,
-    ),
-    Product(
-      productName: 'Cappuccino',
-      imagePath: 'asset/images/cappuccinoTwo.png',
-      price: 1080.00,
-      rating: 800,
-      ratingAvg: 5,
-    ),
-    Product(
-      productName: 'Ice Latte',
-      imagePath: 'asset/images/icelatte.png',
-      price: 1080.00,
-      rating: 500,
-      ratingAvg: 3.5,
-    ),
-    Product(
-      productName: 'Mocha',
-      imagePath: 'asset/images/mocha.png',
-      price: 700.99,
-      rating: 220,
-      ratingAvg: 2.3,
-    ),
-  ];
+  final ProductService _productService = ProductService();
+  final DbService _dbService = DbService();
 
-  final List<Product> newArrivals = [
-    Product(
-      productName: 'Hot Chocolate',
-      imagePath: 'asset/images/chocolate.png',
-      price: 690.99,
-      rating: 520,
-      ratingAvg: 4,
-    ),
-    Product(
-      productName: 'Affogato',
-      imagePath: 'asset/images/Affogato.png',
-      price: 1080.00,
-      rating: 800,
-      ratingAvg: 5,
-    ),
-    Product(
-      productName: 'Macchiato',
-      imagePath: 'asset/images/Macchiato.png',
-      price: 1080.00,
-      rating: 500,
-      ratingAvg: 3.5,
-    ),
-    Product(
-      productName: 'Iced Mocha',
-      imagePath: 'asset/images/IcedMocha.png',
-      price: 700.99,
-      rating: 220,
-      ratingAvg: 2.3,
-    ),
-  ];
+  /// ALL PRODUCTS FROM API
+  List<Product> _allProducts = [];
 
-  get products => productsList;
-
+  /// CART
   final List<CartItem> _cartItems = [];
+
+  bool isLoading = false;
+  String? errorMessage;
+
+  CartModel() {
+    loadProducts(); 
+  }
 
   List<CartItem> get cartItems => _cartItems;
 
+  List<Product> get featuredProducts =>
+      _allProducts.where((p) => p.category == 'featured').toList();
+
+  List<Product> get newArrivals =>
+      _allProducts.where((p) => p.category == 'new').toList();
+
+  Future<void> loadProducts() async {
+    print('LOAD PRODUCTS CALLED');
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      // Check connectivity first
+      final connectivityResult = await Connectivity().checkConnectivity();
+      final isOffline = connectivityResult.contains(ConnectivityResult.none);
+
+      if (!isOffline) {
+        // Online: Fetch from API and cache to DB
+        _allProducts = await _productService.fetchProducts();
+        await _dbService.saveProducts(_allProducts);
+        print('Products fetched from API and cached.');
+        
+        // Start downloading images in background
+        _downloadImages();
+      } else {
+        // Offline: Fetch from local DB
+        _allProducts = await _dbService.getCachedProducts();
+        print('Offline: Products loaded from local DB.');
+      }
+    } catch (e) {
+      // Fallback: If API fails, try local DB before giving up
+      print('API Fetch failed, trying local cache: $e');
+      try {
+        _allProducts = await _dbService.getCachedProducts();
+      } catch (dbError) {
+        errorMessage = 'Failed to load products';
+        debugPrint(dbError.toString());
+      }
+    }
+
+    if (_allProducts.isEmpty && errorMessage == null) {
+      errorMessage = 'No products found';
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> _downloadImages() async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final imagesDir = Directory(p.join(appDir.path, 'product_images'));
+    if (!await imagesDir.exists()) {
+      await imagesDir.create(recursive: true);
+    }
+
+    bool updatedAny = false;
+    for (int i = 0; i < _allProducts.length; i++) {
+      final product = _allProducts[i];
+      
+      // Skip if already has local path or it's not a remote image
+      if (product.localImagePath != null || !product.imagePath.startsWith('http')) {
+        continue;
+      }
+
+      try {
+        final fileName = '${product.id}${p.extension(product.imagePath)}';
+        if (fileName.isEmpty || fileName.contains('?')) {
+          // Handle cases where extension might be messy
+          final simpleName = '${product.id}.png';
+          final localPath = p.join(imagesDir.path, simpleName);
+          final response = await http.get(Uri.parse(product.imagePath));
+          await File(localPath).writeAsBytes(response.bodyBytes);
+          _allProducts[i] = product.copyWith(localImagePath: localPath);
+          updatedAny = true;
+        } else {
+          final localPath = p.join(imagesDir.path, fileName);
+          final response = await http.get(Uri.parse(product.imagePath));
+          await File(localPath).writeAsBytes(response.bodyBytes);
+          _allProducts[i] = product.copyWith(localImagePath: localPath);
+          updatedAny = true;
+        }
+      } catch (e) {
+        print('Error downloading image for ${product.productName}: $e');
+      }
+    }
+
+    if (updatedAny) {
+      await _dbService.saveProducts(_allProducts);
+      notifyListeners();
+    }
+  }
+
+
   bool addToCart(CartItem item) {
-    final itemExists = cartItems.any(
+    final exists = _cartItems.any(
       (element) =>
-          element.product == item.product &&
+          element.product.id == item.product.id &&
           element.cupSize == item.cupSize &&
           element.sugarCount == item.sugarCount,
     );
 
-    if (!itemExists) {
+    if (!exists) {
       _cartItems.add(item);
       notifyListeners();
       return true;
@@ -92,11 +144,7 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  double getTotalPrice(){
-    double totalPrice = 0.00;
-    for(CartItem item in _cartItems){
-      totalPrice += item.product.price;
-    }
-    return totalPrice;
+  double getTotalPrice() {
+    return _cartItems.fold(0.0, (total, item) => total + item.product.price);
   }
 }

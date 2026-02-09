@@ -1,8 +1,11 @@
 import 'package:coffee_app/models/cart_model.dart';
 import 'package:coffee_app/theme/theme.dart';
 import 'package:coffee_app/widget/custom_chip.dart';
+import 'package:coffee_app/widget/location_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:coffee_app/widget/cached_product_image.dart';
+
 
 class Cart extends StatelessWidget {
   const Cart({super.key});
@@ -69,6 +72,9 @@ class Cart extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 20),
+                              LocationTile(),
+                              SizedBox(height: 20),
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -112,10 +118,11 @@ class Cart extends StatelessWidget {
                                               padding: const EdgeInsets.all(
                                                 12.0,
                                               ),
-                                              child: Image.asset(
-                                                item.product.imagePath,
+                                              child: CachedProductImage(
+                                                product: item.product,
                                                 fit: BoxFit.cover,
                                               ),
+
                                             ),
                                           ),
 

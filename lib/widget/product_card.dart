@@ -2,6 +2,9 @@ import 'package:coffee_app/models/product_model.dart';
 import 'package:coffee_app/screens/one_product_view.dart';
 import 'package:coffee_app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:coffee_app/widget/cached_product_image.dart';
+
+
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -57,12 +60,13 @@ class ProductCard extends StatelessWidget {
 
                         Expanded(
                           child: Center(
-                            child: Image.asset(
-                              product.imagePath,
+                            child: CachedProductImage(
+                              product: product,
                               fit: BoxFit.contain,
                             ),
                           ),
                         ),
+
                       ],
                     ),
                   ),
